@@ -31,11 +31,13 @@ class CategoryGridItem extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(
-              category.title,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
+            FittedBox(
+              child: Text(
+                category.title,
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+              ),
             ),
           ],
         ),
