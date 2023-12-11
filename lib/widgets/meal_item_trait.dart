@@ -11,7 +11,6 @@ class MealItemTrait extends StatelessWidget {
     return Row(
       children: [
         Icon(
-          
           icon,
           size: 16,
           color: Colors.white,
