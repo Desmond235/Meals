@@ -11,9 +11,31 @@ class MealScreen extends StatelessWidget {
 
   void selectMeal(BuildContext context, Meal meal) {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: ((context) => MealDetailsScreen(meal: meal)),
-      ),
+     _createRoute(meal)
+    );
+  }
+
+  //  Slide transtion form meal screen to meal details screen
+  Route _createRoute(Meal meal) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          MealDetailsScreen(meal: meal),
+      transitionDuration: const Duration(seconds: 1),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(-1, 0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween = Tween(
+          begin: begin,
+          end: end,
+        ).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
     );
   }
 
@@ -24,7 +46,7 @@ class MealScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           return MealItem(
               meal: meals[index],
-              onSelectMeal: (context, meal) {
+              onSelectMeal: (meal) {
                 selectMeal(context, meal);
               });
         });
