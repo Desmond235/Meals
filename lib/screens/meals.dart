@@ -11,15 +11,15 @@ class MealScreen extends StatelessWidget {
 
   void selectMeal(BuildContext context, Meal meal) {
     Navigator.of(context).push(
-     _createRoute(meal)
+     _createRoute(MealDetailsScreen(meal: meal))
     );
   }
 
   //  Slide transtion form meal screen to meal details screen
-  Route _createRoute(Meal meal) {
+  Route _createRoute(Widget screen) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          MealDetailsScreen(meal: meal),
+          screen,
       transitionDuration: const Duration(seconds: 1),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(-1, 0);
@@ -29,7 +29,7 @@ class MealScreen extends StatelessWidget {
         var tween = Tween(
           begin: begin,
           end: end,
-        ).chain(CurveTween(curve: curve));
+        ).chain(CurveTween(curve: curve ));
 
         return SlideTransition(
           position: animation.drive(tween),
