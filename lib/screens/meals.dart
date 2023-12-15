@@ -4,32 +4,29 @@ import 'package:meal/screens/meal_details.dart';
 import 'package:meal/widgets/meal_item.dart';
 
 class MealScreen extends StatelessWidget {
-  const MealScreen({super.key, required this.title, required this.meals});
+  const MealScreen({super.key, this.title, required this.meals});
 
-  final String title;
+  final String? title;
   final List<Meal> meals;
 
   void selectMeal(BuildContext context, Meal meal) {
-    Navigator.of(context).push(
-     _createRoute(MealDetailsScreen(meal: meal))
-    );
+    Navigator.of(context).push(_createRoute(MealDetailsScreen(meal: meal)));
   }
 
   //  Slide transtion form meal screen to meal details screen
   Route _createRoute(Widget screen) {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          screen,
+      pageBuilder: (context, animation, secondaryAnimation) => screen,
       transitionDuration: const Duration(seconds: 1),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        const begin = Offset(-1, 0);
+        const begin = Offset(1, 0);
         const end = Offset.zero;
         const curve = Curves.ease;
 
         var tween = Tween(
           begin: begin,
           end: end,
-        ).chain(CurveTween(curve: curve ));
+        ).chain(CurveTween(curve: curve));
 
         return SlideTransition(
           position: animation.drive(tween),
@@ -74,9 +71,13 @@ class MealScreen extends StatelessWidget {
         ),
       );
     }
+
+    if (title == null) {
+      return content;
+    }
     return Scaffold(
         appBar: AppBar(
-          title: Text(title),
+          title: Text(title!),
         ),
         body: content);
   }
