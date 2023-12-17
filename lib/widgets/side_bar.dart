@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SideBar extends StatelessWidget {
-  const SideBar({super.key});
+  const SideBar({super.key, required this.selectedScreen});
+
+  final void Function(String identifier) selectedScreen;
 
   Widget sideBarItems(BuildContext context, IconData icon, double size,
       Color color, String data, TextStyle style, void Function() onTap) {
@@ -56,7 +58,9 @@ class SideBar extends StatelessWidget {
                 .textTheme
                 .titleSmall!
                 .copyWith(color: Theme.of(context).colorScheme.onBackground),
-            () {},
+            () {
+              selectedScreen('meals');
+            },
           ),
           sideBarItems(
             context,
@@ -68,7 +72,9 @@ class SideBar extends StatelessWidget {
                 .textTheme
                 .titleSmall!
                 .copyWith(color: Theme.of(context).colorScheme.onBackground),
-            () {},
+            () {
+              selectedScreen('filters');
+            },
           )
         ],
       ),
