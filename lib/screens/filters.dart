@@ -2,19 +2,39 @@ import 'package:flutter/material.dart';
 // import 'package:meal/screens/tabs.dart';
 // import 'package:meal/widgets/side_bar.dart';
 
-class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+enum Filter {
+  glutenFree,
+  lactosFree,
+  vegetarianFree,
+  veganFree,
+}
 
+class FiltersScreen extends StatefulWidget {
+  const FiltersScreen({
+    super.key,
+    required this.currentFilters,
+  });
+
+  final Map<Filter, bool> currentFilters;
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
- 
   var _glutenFree = false;
-  var _lactoseFree = false;
+  var _lactosFree = false;
   var _vegetarianFree = false;
   var _veganFree = false;
+
+// Assigns and saves the filters chosen by the user
+  @override
+  void initState() {
+    super.initState();
+    _glutenFree = widget.currentFilters[Filter.glutenFree]!;
+    _lactosFree = widget.currentFilters[Filter.lactosFree]!;
+    _vegetarianFree = widget.currentFilters[Filter.vegetarianFree]!;
+    _veganFree = widget.currentFilters[Filter.veganFree]!;
+  }
 
   Widget switchLisTile(
       String data, String text, bool setBool, void Function(bool) onChanged) {
@@ -56,49 +76,62 @@ class _FiltersScreenState extends State<FiltersScreen> {
       //     );
       //   }
       // }),
-      body: Column(
-        children: [
-          switchLisTile(
-            'Gluten-free',
-            'Only include gluten-free meals. ',
-            _glutenFree,
-            (isSwitched) {
-              setState(() {
-                _glutenFree = isSwitched;
-              });
-            },
-          ),
-          switchLisTile(
-            'Lactose-free',
-            'Only include lactose-free meals. ',
-            _lactoseFree,
-            (isSwitched) {
-              setState(() {
-                _lactoseFree = isSwitched;
-              });
-            },
-          ),
-          switchLisTile(
-            'Vegetarian-free',
-            'Only include Vegetarian-free meals. ',
-            _vegetarianFree,
-            (isSwitched) {
-              setState(() {
-                _vegetarianFree = isSwitched;
-              });
-            },
-          ),
-          switchLisTile(
-            'Vegan-free',
-            'Only include Vegan-free meals. ',
-            _veganFree,
-            (isSwitched) {
-              setState(() {
-                _veganFree = isSwitched;
-              });
-            },
-          )
-        ],
+      body: PopScope(
+        canPop: true,
+        onPopInvoked: (didPop) {
+          Navigator.of(context).pop({
+            Filter.glutenFree: _glutenFree,
+            Filter.lactosFree: _lactosFree,
+            Filter.vegetarianFree: _vegetarianFree,
+            Filter.veganFree: _veganFree
+          });
+          if (didPop) return;
+
+        },
+        child: Column(
+          children: [
+            switchLisTile(
+              'Gluten-free',
+              'Only include gluten-free meals. ',
+              _glutenFree,
+              (isSwitched) {
+                setState(() {
+                  _glutenFree = isSwitched;
+                });
+              },
+            ),
+            switchLisTile(
+              'Lactose-free',
+              'Only include lactose-free meals. ',
+              _lactosFree,
+              (isSwitched) {
+                setState(() {
+                  _lactosFree = isSwitched;
+                });
+              },
+            ),
+            switchLisTile(
+              'Vegetarian-free',
+              'Only include Vegetarian-free meals. ',
+              _vegetarianFree,
+              (isSwitched) {
+                setState(() {
+                  _vegetarianFree = isSwitched;
+                });
+              },
+            ),
+            switchLisTile(
+              'Vegan-free',
+              'Only include Vegan-free meals. ',
+              _veganFree,
+              (isSwitched) {
+                setState(() {
+                  _veganFree = isSwitched;
+                });
+              },
+            )
+          ],
+        ),
       ),
     );
   }
