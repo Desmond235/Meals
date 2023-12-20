@@ -76,49 +76,62 @@ class _FiltersScreenState extends State<FiltersScreen> {
       //     );
       //   }
       // }),
-      body: Column(
-        children: [
-          switchLisTile(
-            'Gluten-free',
-            'Only include gluten-free meals. ',
-            _glutenFree,
-            (isSwitched) {
-              setState(() {
-                _glutenFree = isSwitched;
-              });
-            },
-          ),
-          switchLisTile(
-            'Lactose-free',
-            'Only include lactose-free meals. ',
-            _lactosFree,
-            (isSwitched) {
-              setState(() {
-                _lactosFree = isSwitched;
-              });
-            },
-          ),
-          switchLisTile(
-            'Vegetarian-free',
-            'Only include Vegetarian-free meals. ',
-            _vegetarianFree,
-            (isSwitched) {
-              setState(() {
-                _vegetarianFree = isSwitched;
-              });
-            },
-          ),
-          switchLisTile(
-            'Vegan-free',
-            'Only include Vegan-free meals. ',
-            _veganFree,
-            (isSwitched) {
-              setState(() {
-                _veganFree = isSwitched;
-              });
-            },
-          )
-        ],
+      body: PopScope(
+         canPop: true,
+        onPopInvoked: (didPop) {
+          Navigator.of(context).pop({
+            Filter.glutenFree: _glutenFree,
+            Filter.lactosFree: _lactosFree,
+            Filter.vegetarianFree: _vegetarianFree,
+            Filter.veganFree: _veganFree
+          });
+          if (didPop) return;
+
+        },
+        child: Column(
+          children: [
+            switchLisTile(
+              'Gluten-free',
+              'Only include gluten-free meals. ',
+              _glutenFree,
+              (isSwitched) {
+                setState(() {
+                  _glutenFree = isSwitched;
+                });
+              },
+            ),
+            switchLisTile(
+              'Lactose-free',
+              'Only include lactose-free meals. ',
+              _lactosFree,
+              (isSwitched) {
+                setState(() {
+                  _lactosFree = isSwitched;
+                });
+              },
+            ),
+            switchLisTile(
+              'Vegetarian-free',
+              'Only include Vegetarian-free meals. ',
+              _vegetarianFree,
+              (isSwitched) {
+                setState(() {
+                  _vegetarianFree = isSwitched;
+                });
+              },
+            ),
+            switchLisTile(
+              'Vegan-free',
+              'Only include Vegan-free meals. ',
+              _veganFree,
+              (isSwitched) {
+                setState(() {
+                  _veganFree = isSwitched;
+                });
+              },
+            )
+          ],
+        ),
       ),
     );
   }
