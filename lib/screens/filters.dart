@@ -91,10 +91,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
           switchLisTile(
             'Lactose-free',
             'Only include lactose-free meals. ',
-            _lactoseFree,
+            _lactosFree,
             (isSwitched) {
               setState(() {
-                _lactoseFree = isSwitched;
+                _lactosFree = isSwitched;
               });
             },
           ),
