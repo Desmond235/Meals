@@ -36,6 +36,16 @@ class _FiltersScreenState extends State<FiltersScreen> {
     _veganFree = widget.currentFilters[Filter.veganFree]!;
   }
 
+// popping the filter screen to the tab screen
+  void _popFilterScreen(BuildContext context) {
+    Navigator.of(context).pop({
+      Filter.glutenFree: _glutenFree,
+      Filter.lactosFree: _lactosFree,
+      Filter.vegetarianFree: _vegetarianFree,
+      Filter.veganFree: _veganFree
+    });
+  }
+
   Widget switchLisTile(
       String data, String text, bool setBool, void Function(bool) onChanged) {
     return SwitchListTile(
@@ -77,16 +87,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
       //   }
       // }),
       body: PopScope(
-         canPop: true,
+        canPop: false,
         onPopInvoked: (didPop) {
-          Navigator.of(context).pop({
-            Filter.glutenFree: _glutenFree,
-            Filter.lactosFree: _lactosFree,
-            Filter.vegetarianFree: _vegetarianFree,
-            Filter.veganFree: _veganFree
-          });
-          if (didPop) return;
-
+          if (didPop) {
+            return;
+          }
+          _popFilterScreen(context);
         },
         child: Column(
           children: [
