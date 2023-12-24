@@ -24,23 +24,26 @@ class MealDetailsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: Text(meal.title), actions: [
-        IconButton(
-          onPressed: () {
-            final wasAdded = ref
-                .read(favoriteMealsProvider.notifier)
-                .toggleFavoriteMeal(meal);
-            ScaffoldMessenger.of(context).clearSnackBars();
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content:
-                  Text(wasAdded ? 'Meal added to favorites' : 'Meal removed'),
-            ));
-          },
-          icon: const Icon(
-            Icons.star,
-          ),
-        )
-      ]),
+      appBar: AppBar(
+        title: Text(meal.title),
+        actions: [
+          IconButton(
+            onPressed: () {
+              final wasAdded = ref
+                  .read(favoriteMealsProvider.notifier)
+                  .toggleFavoriteMeal(meal);
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content:
+                    Text(wasAdded ? 'Meal added to favorites' : 'Meal removed'),
+              ));
+            },
+            icon: const Icon(
+              Icons.star,
+            ),
+          )
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [

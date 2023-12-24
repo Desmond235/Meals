@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:meal/models/meal.dart';
 import 'package:meal/screens/categories.dart';
 import 'package:meal/screens/filters.dart';
 import 'package:meal/screens/meals.dart';
@@ -58,10 +57,10 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     final meals = ref.watch(mealsProvider);
+    
     // if the user selects a filter from the filter screen
-    // and the meal does not match the filter it will not be displayed
-    // also if there is a particular category that does match the filter,
-    // it will not be displayed in the category screen
+    // and the meal does not match the filter it will not be displayed 
+    // in the meal screen
     final availableMeals = meals.where((meal) {
       if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
         return false;
