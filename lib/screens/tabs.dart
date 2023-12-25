@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:meal/navigation_bar_color.dart';
 
 import 'package:meal/screens/categories.dart';
 import 'package:meal/screens/filters.dart';
@@ -88,27 +90,30 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       );
       activePageTitle = 'Your Favorites';
     }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(activePageTitle),
-      ),
-      drawer: SideBar(
-        selectedScreen: _loadScreen,
-      ),
-      body: activePage,
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectPage,
-        currentIndex: _selectedPageIndex,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.set_meal),
-            label: 'Category',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: 'Favorites',
-          ),
-        ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: overlayStyle,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(activePageTitle),
+        ),
+        drawer: SideBar(
+          selectedScreen: _loadScreen,
+        ),
+        body: activePage,
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: _selectPage,
+          currentIndex: _selectedPageIndex,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.set_meal),
+              label: 'Category',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.star),
+              label: 'Favorites',
+            ),
+          ],
+        ),
       ),
     );
   }
