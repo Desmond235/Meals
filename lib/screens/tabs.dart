@@ -11,13 +11,6 @@ import 'package:meal/widgets/side_bar.dart';
 import 'package:meal/providers/meals_provider.dart';
 import 'package:meal/providers/favorites_provider.dart';
 
-// global variable for filtered meals
-const kInitialFilters = {
-  Filter.glutenFree: false,
-  Filter.lactosFree: false,
-  Filter.vegetarianFree: false,
-  Filter.veganFree: false
-};
 
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});
@@ -48,9 +41,6 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   Widget build(BuildContext context) {
     final meals = ref.watch(mealsProvider);
 
-    // if the user selects a filter from the filter screen
-    // and the meal does not match the filter it will not be displayed
-    // in the meal screen
     final availableMeals = meals.where((meal) {
       final activeFilters = ref.watch(filtersProvider);
       if (activeFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
