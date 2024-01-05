@@ -69,13 +69,9 @@ class MealDetailsScreen extends ConsumerWidget {
               height: 300,
               fit: BoxFit.cover,
             ),
-            const SizedBox(
-              height: 14,
-            ),
+            const SizedBox(height: 14),
             text('Ingredients', context),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             for (final ingredient in meal.ingredients)
               Text(
                 ingredient,
@@ -83,13 +79,9 @@ class MealDetailsScreen extends ConsumerWidget {
                       color: Theme.of(context).colorScheme.onBackground,
                     ),
               ),
-            const SizedBox(
-              height: 25,
-            ),
+            const SizedBox(height: 25),
             text('Steps', context),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             for (final steps in meal.steps)
               Padding(
                 padding:
