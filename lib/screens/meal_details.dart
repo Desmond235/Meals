@@ -44,18 +44,13 @@ class MealDetailsScreen extends ConsumerWidget {
             icon: AnimatedSwitcher(
               transitionBuilder: (child, animation) {
                 return RotationTransition(
-                  turns: Tween<double>(
-                    begin: 0.8,
-                    end: 1,
-                  ).animate(animation),
+                  turns: Tween<double>(begin: 0.8, end: 1).animate(animation),
                   child: child,
                 );
               },
               duration: const Duration(milliseconds: 200),
-              key: ValueKey(isFavorite),
-              child: Icon(
-                isFavorite ? Icons.star : Icons.star_border,
-              ),
+              child: Icon(isFavorite ? Icons.star : Icons.star_border,
+                  key: ValueKey(isFavorite)),
             ),
           )
         ],
@@ -63,11 +58,14 @@ class MealDetailsScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.network(
-              meal.imageUrl,
-              width: double.infinity,
-              height: 300,
-              fit: BoxFit.cover,
+            Hero(
+              tag: meal.id,
+              child: Image.network(
+                meal.imageUrl,
+                width: double.infinity,
+                height: 300,
+                fit: BoxFit.cover,
+              ),
             ),
             const SizedBox(height: 14),
             text('Ingredients', context),
