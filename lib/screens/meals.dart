@@ -13,15 +13,10 @@ class MealScreen extends StatelessWidget {
   final String? title;
   final List<Meal> meals;
 
-
   void selectMeal(BuildContext context, Meal meal) {
-    Navigator.of(context).push(
-      _createRoute(
-        MealDetailsScreen(
-          meal: meal,
-        ),
-      ),
-    );
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => MealDetailsScreen(meal: meal),
+    ));
   }
 
   //  Slide transtion form meal screen to meal details screen
