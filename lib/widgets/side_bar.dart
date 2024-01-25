@@ -37,7 +37,7 @@ class SideBar extends StatelessWidget {
                   size: 48,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                const SizedBox(),
+                const SizedBox(width: 5),
                 Text(
                   'Cooking up',
                   style: Theme.of(context)

@@ -26,7 +26,7 @@ class _CategoriesScreenState extends State<CategoriesScreen>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 1500),
       lowerBound: 0,
       upperBound: 1,
     );

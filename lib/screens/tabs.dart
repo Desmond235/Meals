@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meal/navigation_bar_color.dart';
 import 'package:meal/providers/filters_provider.dart';
@@ -17,7 +16,10 @@ class TabsScreen extends ConsumerStatefulWidget {
   ConsumerState<TabsScreen> createState() => _TabsScreenState();
 }
 
-class _TabsScreenState extends ConsumerState<TabsScreen> {
+class _TabsScreenState extends ConsumerState<TabsScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<Offset> slideTransition;
   int _selectedPageIndex = 0;
 
   void _selectPage(int index) {
@@ -36,6 +38,32 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 1500,
+      ),
+    );
+
+    slideTransition = Tween(
+      begin: const Offset(0, 0.3),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(parent: controller, curve: Curves.ease),
+    );
+
+    controller.forward();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final availableMeals = ref.watch(filteredMealsProvider);
     Widget activePage = CategoriesScreen(
@@ -45,12 +73,24 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
 
     if (_selectedPageIndex == 1) {
       final favoriteMeals = ref.watch(favoriteMealsProvider);
-      activePage = MealScreen(
-        meals: favoriteMeals,
+      activePage = AnimatedBuilder(
+        animation: controller,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: MealScreen(
+            meals: favoriteMeals,
+          ),
+        ),
+        builder: (context, child) {
+          return SlideTransition(
+            position: slideTransition,
+            child: child,
+          );
+        },
       );
       activePageTitle = 'Your Favorites';
     }
-    return AnnotatedRegion<SystemUiOverlayStyle>(
+    return AnnotatedRegion(
       value: overlayStyle,
       child: Scaffold(
         appBar: AppBar(
