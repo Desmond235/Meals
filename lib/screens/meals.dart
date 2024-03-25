@@ -3,7 +3,7 @@ import 'package:meal/models/meal.dart';
 import 'package:meal/screens/meal_details.dart';
 import 'package:meal/widgets/meal_item.dart';
 
-class MealScreen extends StatelessWidget {
+class MealScreen extends StatefulWidget {
   const MealScreen({
     super.key,
     this.title,
@@ -13,47 +13,48 @@ class MealScreen extends StatelessWidget {
   final String? title;
   final List<Meal> meals;
 
+  @override
+  State<MealScreen> createState() => _MealScreenState();
+}
+
+class _MealScreenState extends State<MealScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<Offset> slideTransition;
+
   void selectMeal(BuildContext context, Meal meal) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => MealDetailsScreen(meal: meal),
     ));
   }
 
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
+    slideTransition = Tween(begin: const Offset(0, 0.3), end: Offset.zero)
+        .animate(controller);
+  }
+
   //  Slide transtion form meal screen to meal details screen
-  // Route _createRoute(Widget screen) {
-  //   return PageRouteBuilder(
-  //     pageBuilder: (context, animation, secondaryAnimation) => screen,
-  //     transitionDuration: const Duration(seconds: 1),
-  //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-  //       const begin = Offset(1, 0);
-  //       const end = Offset.zero;
-  //       const curve = Curves.ease;
-
-  //       var tween = Tween(
-  //         begin: begin,
-  //         end: end,
-  //       ).chain(CurveTween(curve: curve));
-
-  //       return SlideTransition(
-  //         position: animation.drive(tween),
-  //         child: child,
-  //       );
-  //     },
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     Widget content = ListView.builder(
-        itemCount: meals.length,
+        itemCount: widget.meals.length,
         itemBuilder: (context, index) {
-          return MealItem(
-              meal: meals[index],
-              onSelectMeal: (meal) {
-                selectMeal(context, meal);
-              });
+          return SlideTransition(
+            position: slideTransition,
+            child: MealItem(
+                meal: widget.meals[index],
+                onSelectMeal: (meal) {
+                  selectMeal(context, meal);
+                }),
+          );
         });
-    if (meals.isEmpty) {
+    if (widget.meals.isEmpty) {
       content = Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -78,12 +79,12 @@ class MealScreen extends StatelessWidget {
       );
     }
 
-    if (title == null) {
+    if (widget.title == null) {
       return content;
     }
     return Scaffold(
         appBar: AppBar(
-          title: Text(title!),
+          title: Text(widget.title!),
         ),
         body: content);
   }
